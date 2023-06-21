@@ -1,6 +1,9 @@
 import { Router } from "express";
-import { createOrder, capturePayment } from "../controllers/payment.controller";
-import verifyPaymentSignature from "../middlewares/verifyPaymentSignature";
+import {
+  createOrder,
+  capturePayment,
+} from "../controllers/payment.controller.js";
+import verifyPaymentSignature from "../middlewares/verifyPaymentSignature.js";
 
 const router = Router();
 router.post("/createOrder", createOrder);

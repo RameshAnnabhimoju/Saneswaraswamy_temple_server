@@ -2,17 +2,17 @@ import crypto from "crypto";
 import dotenv from "dotenv";
 dotenv.config();
 export default function verifyPaymentSignature(request, response, next) {
+  const { paymentId, razorpay_signature, razorpay_order_id } = request.body;
   try {
-    const [paymentId, order_id, razorpay_signature] = request.body;
     const hmac = crypto.createHmac(
       "sha256",
-      process.env.RAZORPAY_VERIFICATION_SECRET_KEY
+      process.env.RAZORPAY_TEST_KEY_SECRET
     );
-    const hmac_data = hmac.update(order_id + "|" + paymentId);
+    const hmac_data = hmac.update(razorpay_order_id + "|" + paymentId);
     const generated_signature = hmac_data.digest("hex");
     if (razorpay_signature === generated_signature) {
-      response.status(200).json({ message: "payment signature verified" });
-      next();
+      // response.status(200).json({ message: "payment signature verified" });
+      return next();
     } else {
       return response
         .status(400)
