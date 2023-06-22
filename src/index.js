@@ -11,6 +11,6 @@ app.get("/", (request, response) => {
 app.use("/payment", paymentRouter);
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
-  console.log(`Server is listening at port ${port}`);
+  console.log(`Server is running at port ${port}`);
 });
 export default app;
