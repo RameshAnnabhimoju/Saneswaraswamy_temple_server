@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import paymentRouter from "./routes/payment.router.js";
+import paymentRouter from "./src/routes/payment.router.js";
 const app = express();
 app.use(cors({ origin: process.env.DEV_URL, credentials: true }));
 app.use(express.urlencoded({ extended: false }));
