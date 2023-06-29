@@ -1,4 +1,5 @@
 import Razorpay from "razorpay";
+import payment from "../model/payment.model.js";
 import crypto from "crypto";
 import dotenv from "dotenv";
 dotenv.config();
@@ -37,5 +38,32 @@ export const capturePayment = async (request, response) => {
       });
   } catch (error) {
     return response.status(500).json(error);
+  }
+};
+
+export const saveTransactionId = async (request, response) => {
+  try {
+    await payment
+      .create(request.body)
+      .then((data) => {
+        return response.status(200).json({
+          status: "success",
+          message: "Transaction ID saved successfully",
+          data: data._id,
+        });
+      })
+      .catch((error) => {
+        return response.status(400).json({
+          status: "failure",
+          message: "Transaction ID save Failed",
+          error,
+        });
+      });
+  } catch (error) {
+    return response.status(500).json({
+      status: "failure",
+      message: "Internal Server Error",
+      error,
+    });
   }
 };
