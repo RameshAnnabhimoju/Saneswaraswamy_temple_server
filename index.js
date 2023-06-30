@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import paymentRouter from "./src/routes/payment.router.js";
 const app = express();
-app.use(cors({ origin: process.env.DEV_URL }));
+app.use(cors({ origin: process.env.PROD_URL }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 mongoose
