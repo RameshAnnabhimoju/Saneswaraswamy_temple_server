@@ -67,3 +67,56 @@ export const saveTransactionId = async (request, response) => {
     });
   }
 };
+export const getPayments = async (request, response) => {
+  const { startDate, endDate, page } = request.params;
+  const resultsPerPage = 20;
+  const defaultStartDate = new Date("2023-06-30");
+  const defaultEndDate = new Date();
+  const currentPage = parseInt(page) || 1;
+
+  if (currentPage <= 0) {
+    currentPage = 1;
+  }
+
+  const searchStartDate = startDate ? new Date(startDate) : defaultStartDate;
+  const searchEndDate = endDate ? new Date(endDate) : defaultEndDate;
+  if (isNaN(searchStartDate.getTime()) || isNaN(searchEndDate.getTime())) {
+    return response.status(400).json({
+      status: "failure",
+      message: "Error retrieving payments",
+      error: "Invalid date format",
+    });
+  }
+  try {
+    const skip = (currentPage - 1) * resultsPerPage;
+
+    const query = payment.find({
+      createdAt: { $gte: searchStartDate, $lte: searchEndDate },
+    });
+
+    const payments = await query.skip(skip).limit(resultsPerPage);
+    const totalCount = await payment.countDocuments({
+      createdAt: { $gte: searchStartDate, $lte: searchEndDate },
+    });
+
+    const startRange = skip + 1;
+    const endRange = Math.min(skip + resultsPerPage, totalCount);
+
+    return response.status(200).json({
+      status: "success",
+      message: "Payments retrived successfully",
+      data: {
+        payments,
+        totalCount,
+        startRange,
+        endRange,
+      },
+    });
+  } catch (error) {
+    return response.status(500).json({
+      status: "failure",
+      message: "Internal Server Error",
+      error,
+    });
+  }
+};
