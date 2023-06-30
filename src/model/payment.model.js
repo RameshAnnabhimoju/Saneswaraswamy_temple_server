@@ -5,7 +5,7 @@ const paymentSchema = new Schema(
     dob: { type: String, required: true },
     gender: { type: String, required: true },
     poojaName: { type: String },
-    poojaType: { type: String },
+    pooja: { type: String },
     poojaDate: { type: String },
     occasion: { type: String },
     amount: { type: String, required: true },
