@@ -4,6 +4,8 @@ const paymentSchema = new Schema(
     name: { type: String, required: true },
     dob: { type: String, required: true },
     gender: { type: String, required: true },
+    gothram: { type: String, required: true },
+    nakshtram: { type: String, required: true },
     poojaName: { type: String },
     pooja: { type: String },
     poojaDate: { type: String },
