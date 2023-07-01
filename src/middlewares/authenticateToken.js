@@ -12,7 +12,7 @@ const authenticateToken = (request, response, next) => {
     });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (error, data) => {
+  jwt.verify(token, process.env.WEB_TOKEN_PRIVATE_KEY, (error, data) => {
     if (error) {
       return response.status(403).json({
         status: "failed",

@@ -3,15 +3,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const login = async (request, response) => {
+  const { username, password } = request.body;
+  const token = jwt.sign(
+    { username, password },
+    process.env.WEB_TOKEN_PRIVATE_KEY
+  );
   try {
-    const { username, password } = request.body;
-    const token = jwt.sign(
-      { username, password },
-      process.env.WEB_TOKEN_PRIVATE_KEY,
-      {
-        algorithm: "RS256",
-      }
-    );
     if (username !== "ADMIN-123" && password !== "Welcome@123") {
       return response.status(401).json({
         status: "failure",
