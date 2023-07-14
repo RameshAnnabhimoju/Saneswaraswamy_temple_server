@@ -68,16 +68,21 @@ export const saveTransactionId = async (request, response) => {
   }
 };
 export const getPayments = async (request, response) => {
-  const { startDate, endDate } = request.params;
-  // const resultsPerPage = 20;
+  const { startDate, endDate } = request.query;
+  // const resultsPerPage = 5;
+  const givenEndDate = new Date(endDate);
+  givenEndDate.setDate(givenEndDate.getDate() + 1);
   const defaultStartDate = new Date("2023-06-30");
   const defaultEndDate = new Date();
+  defaultEndDate.setDate(defaultEndDate.getDate() + 1);
+  // console.log(startDate, endDate);
 
   try {
     const searchStartDate = !!startDate
       ? new Date(startDate)
       : defaultStartDate;
-    const searchEndDate = !!endDate ? new Date(endDate) : defaultEndDate;
+    const searchEndDate = !!endDate ? givenEndDate : defaultEndDate;
+    console.log(searchStartDate, searchEndDate);
     // if (isNaN(searchStartDate.getTime()) || isNaN(searchEndDate.getTime())) {
     //   return response.status(400).json({
     //     status: "failure",
@@ -86,10 +91,31 @@ export const getPayments = async (request, response) => {
     //   });
     // }
     // if (!!!page) {
+    // console.log("startDate", searchStartDate, "EndDate", searchEndDate);
     await payment
-      .find({
-        createdAt: { $gte: searchStartDate, $lte: searchEndDate },
-      })
+      .find(
+        {
+          createdAt: { $gte: searchStartDate, $lte: searchEndDate },
+        },
+        {
+          name: true,
+          gothram: true,
+          poojaName: true,
+          pooja: true,
+          poojaDate: true,
+          amount: true,
+          address: true,
+          city: true,
+          state: true,
+          mandal: true,
+          pincode: true,
+          mobile: true,
+          createdAt: true,
+          transactionId: true,
+          _id: true,
+        }
+      )
+      .sort({ createdAt: -1 })
       .then((data) => {
         return response.status(200).json({
           status: "success",

@@ -13,6 +13,7 @@ const paymentSchema = new Schema(
     amount: { type: String, required: true },
     address: { type: String, required: true },
     city: { type: String, required: true },
+    mandal: { type: String, required: true },
     state: { type: String, required: true },
     pincode: { type: String, required: true },
     mobile: { type: String, required: true },
