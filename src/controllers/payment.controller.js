@@ -95,7 +95,7 @@ export const getPayments = async (request, response) => {
     await payment
       .find(
         {
-          createdAt: { $gte: searchStartDate, $lte: searchEndDate },
+          poojaDate: { $gte: searchStartDate, $lte: searchEndDate },
         },
         {
           name: true,
@@ -115,7 +115,7 @@ export const getPayments = async (request, response) => {
           _id: true,
         }
       )
-      .sort({ createdAt: -1 })
+      .sort({ poojaDate: -1 })
       .then((data) => {
         return response.status(200).json({
           status: "success",
