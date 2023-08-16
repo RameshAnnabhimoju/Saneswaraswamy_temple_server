@@ -68,7 +68,7 @@ export const saveTransactionId = async (request, response) => {
   }
 };
 export const getPayments = async (request, response) => {
-  const { startDate, endDate } = request.query;
+  const { startDate, endDate, columns } = request.query;
   // const resultsPerPage = 5;
   const givenEndDate = new Date(endDate);
   givenEndDate.setDate(givenEndDate.getDate() + 1);
@@ -97,23 +97,7 @@ export const getPayments = async (request, response) => {
         {
           createdAt: { $gte: searchStartDate, $lte: searchEndDate },
         },
-        {
-          name: true,
-          gothram: true,
-          poojaName: true,
-          pooja: true,
-          poojaDate: true,
-          amount: true,
-          address: true,
-          city: true,
-          state: true,
-          mandal: true,
-          pincode: true,
-          mobile: true,
-          createdAt: true,
-          transactionId: true,
-          _id: true,
-        }
+        columns
       )
       .sort({ createdAt: -1 })
       .then((data) => {
