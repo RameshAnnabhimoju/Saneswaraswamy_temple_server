@@ -68,7 +68,7 @@ export const saveTransactionId = async (request, response) => {
   }
 };
 export const getPayments = async (request, response) => {
-  const { startDate, endDate, columns } = request.query;
+  const { startDate, endDate, columns, sortBy } = request.query;
   // const resultsPerPage = 5;
   const givenEndDate = new Date(endDate);
   givenEndDate.setDate(givenEndDate.getDate() + 1);
@@ -99,7 +99,7 @@ export const getPayments = async (request, response) => {
         },
         columns
       )
-      .sort({ poojaDate: -1 })
+      .sort({ [sortBy]: -1 })
       .then((data) => {
         return response.status(200).json({
           status: "success",
