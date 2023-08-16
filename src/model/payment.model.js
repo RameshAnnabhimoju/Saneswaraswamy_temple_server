@@ -8,7 +8,7 @@ const paymentSchema = new Schema(
     nakshtram: { type: String },
     poojaName: { type: String },
     pooja: { type: String },
-    poojaDate: { type: String },
+    poojaDate: { type: Date },
     occasion: { type: String },
     amount: { type: String, required: true },
     address: { type: String, required: true },

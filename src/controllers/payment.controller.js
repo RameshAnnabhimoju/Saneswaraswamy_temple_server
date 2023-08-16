@@ -155,3 +155,35 @@ export const getPayments = async (request, response) => {
     });
   }
 };
+
+export const convert = async (request, response) => {
+  try {
+    await payment
+      .find({})
+      .then((result) => {
+        result.forEach(async (value) => {
+          await payment.findOneAndUpdate(
+            { _id: value._id },
+            { poojaDate: Date(value.poojaDate) }
+          );
+        });
+        return response.status(200).json({
+          status: "success",
+          message: "pooja Dates changed successfully",
+        });
+      })
+      .catch((error) => {
+        return response.status(400).json({
+          status: "failure",
+          message: " Error",
+          error,
+        });
+      });
+  } catch (error) {
+    return response.status(500).json({
+      status: "failure",
+      message: "Internal Server Error",
+      error,
+    });
+  }
+};
